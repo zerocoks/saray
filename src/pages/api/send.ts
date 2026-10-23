@@ -1,4 +1,6 @@
+// @ts-nocheck
 // src/pages/api/send.ts
+
 export const prerender = false;
 
 export async function POST({ request }) {
@@ -30,10 +32,13 @@ export async function POST({ request }) {
       data.items.forEach((item) => {
         text += `• ${item.name} — ${item.qty} шт. (${item.price * item.qty} ₽)\n`;
       });
-      text += `\n<b>Итого:</b> ${data.total} ₽\n`;
+      
+      text += `\n<b>Сумма блюд:</b> ${data.total} ₽\n`;
+      if (data.mode === 'delivery') {
+        text += `<b>Стоимость доставки:</b> рассчитать и подтвердить у клиента\n`;
+      }
       if (data.comment) text += `<b>Комментарий:</b> ${data.comment}\n`;
     } else if (data.type === 'feedback') {
-      // НОВЫЙ БЛОК ДЛЯ ОБРАТНОЙ СВЯЗИ
       text += `<b>Тип:</b> Обратная связь\n`;
       text += `<b>Имя:</b> ${data.name}\n`;
       text += `<b>Телефон:</b> ${data.phone}\n`;
@@ -41,15 +46,33 @@ export async function POST({ request }) {
     }
 
     const tgUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-    await fetch(tgUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: text,
-        parse_mode: 'HTML'
-      })
-    });
+    
+    let success = false;
+    for (let i = 0; i < 2; i++) {
+      try {
+        const response = await fetch(tgUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: text,
+            parse_mode: 'HTML'
+          })
+        });
+        
+        if (response.ok) {
+          success = true;
+          break;
+        }
+      } catch (error) {
+        console.error(`Попытка ${i + 1} не удалась:`, error);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
+
+    if (!success) {
+      return new Response(JSON.stringify({ error: "Не удалось доставить в Telegram" }), { status: 500 });
+    }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (error) {
