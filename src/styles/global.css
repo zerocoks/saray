@@ -12,16 +12,45 @@
   --shadow:0 10px 30px rgba(0,0,0,.35);--shadow-hi:0 20px 46px rgba(0,0,0,.5);
   --sans:"Jost","Futura","Century Gothic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  
   --hh: 110px; 
   --gut:clamp(18px,4vw,32px);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 
-/* ---------- База ---------- */
+/* ---------- База с магией фона ---------- */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hh) + 90px);-webkit-text-size-adjust:100%}
-body{margin:0;font:400 17px/1.65 var(--sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+body{
+  margin:0;
+  font:400 17px/1.65 var(--sans);
+  color:var(--text);
+  
+  /* МАГИЯ ФОНА: Мягкие градиентные свечения */
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(ellipse at 50% -10%, rgba(196, 112, 62, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 0% 50%, rgba(237, 230, 218, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 80%, rgba(196, 112, 62, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* МАГИЯ ФОНА: Тончайшая текстура шума (убирает "цифровую пустоту") */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
 img{display:block;max-width:100%;height:auto}
 h1,h2,h3{margin:0 0 .5em;line-height:1.15}
 h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:.005em}
@@ -95,9 +124,15 @@ header.open .burger span{background:transparent}
 header.open .burger span::before{top:0;transform:rotate(45deg)}
 header.open .burger span::after{top:0;transform:rotate(-45deg)}
 
-/* ---------- Секции главной ---------- */
+/* ---------- Секции главной (с мягкими переходами) ---------- */
 .section{padding:clamp(64px,9vw,112px) 0}
-.section.alt{background:var(--surface)}
+.section.alt{
+  /* Вместо резкого цвета делаем плавный градиент */
+  background: linear-gradient(180deg, rgba(29, 26, 23, 1) 0%, rgba(20, 18, 16, 1) 100%);
+  border-top: 1px solid rgba(237, 230, 218, 0.05);
+  border-bottom: 1px solid rgba(237, 230, 218, 0.05);
+  position: relative;
+}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
 .section-head h2{margin:0}
 .section-head .btn.ghost{padding-inline:0}
@@ -201,38 +236,20 @@ body>footer p{margin:0 0 .6em}
 body.header-hidden .menu-nav { top: 0; }
 .menu-nav .wrap{padding-block:2px}
 
-/* ==========================================
-   ИСПРАВЛЕННЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ
-   ========================================== */
+/* ИСПРАВЛЕННЫЙ СКРОЛЛ */
 .chips{
   display:flex;
   flex-wrap:nowrap;
   gap:8px 24px;
   overflow-x:auto;
-  padding:2px 0 10px 0; /* Добавили отступ снизу, чтобы полоса не наезжала на текст */
-  touch-action: pan-x; /* Для удобного свайпа на тач-экранах */
+  padding:2px 0 10px 0; 
+  touch-action: pan-x;
 }
-
-/* Стилизация полосы прокрутки для Webkit (Chrome, Safari, Edge) */
-.chips::-webkit-scrollbar {
-  height: 4px; /* Делаем полосу тонкой и аккуратной */
-}
-.chips::-webkit-scrollbar-track {
-  background: transparent; 
-}
-.chips::-webkit-scrollbar-thumb {
-  background: rgba(237,230,218,.2); /* Цвет в стиле сайта */
-  border-radius: 4px;
-}
-.chips::-webkit-scrollbar-thumb:hover {
-  background: var(--copper-hi); /* При наведении становится медной */
-}
-
-/* Для Firefox */
-.chips {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(237,230,218,.2) transparent;
-}
+.chips::-webkit-scrollbar { height: 4px; }
+.chips::-webkit-scrollbar-track { background: transparent; }
+.chips::-webkit-scrollbar-thumb { background: rgba(237,230,218,.2); border-radius: 4px; }
+.chips::-webkit-scrollbar-thumb:hover { background: var(--copper-hi); }
+.chips { scrollbar-width: thin; scrollbar-color: rgba(237,230,218,.2) transparent; }
 
 .chips a,.chips button{flex:none;font:400 .98rem var(--sans);text-decoration:none;color:var(--muted);background:none;border:0;border-bottom:1px solid transparent;padding:10px 0;cursor:pointer}
 .chips a:hover,.chips [aria-current],.chips [aria-selected=true]{color:var(--text);border-bottom-color:var(--copper-hi)}
@@ -267,36 +284,25 @@ section.cat:first-of-type{margin-top:24px}
 .step output{min-width:1.4em;text-align:center;font-weight:500}
 .step button{width:30px;height:30px;font-size:18px}
 
-/* ==========================================
-   МАГИЯ: СКРЫВАЕМ ПЛЮСИКИ ДО НАВЕДЕНИЯ
-   ========================================== */
+/* Скрываем плюсики до наведения */
 @media (hover: hover) {
   .item .buy .add,
   .dish-card .buy .add {
-    opacity: 0;
-    transform: scale(0.8);
-    pointer-events: none;
+    opacity: 0; transform: scale(0.8); pointer-events: none;
     transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
   }
   .item:hover .buy .add,
   .dish-card:hover .buy .add,
   .item:focus-within .buy .add,
   .dish-card:focus-within .buy .add {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
+    opacity: 1; transform: scale(1); pointer-events: auto;
   }
 }
-
-/* На мобильных устройствах (где нет мышки) кнопка всегда видима, а скроллбар скрыт */
 @media (hover: none) {
   .item .buy .add,
   .dish-card .buy .add {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
+    opacity: 1; transform: none; pointer-events: auto;
   }
-  /* Прячем полосу прокрутки на мобилках, чтобы не портила вид */
   .chips::-webkit-scrollbar { display: none; }
   .chips { scrollbar-width: none; }
 }
@@ -361,28 +367,22 @@ section.cat:first-of-type{margin-top:24px}
 .rw-widget { max-width: 100%; margin: 0 auto; }
 
 /* ==========================================
-   АДАПТИВНОСТЬ (МОБИЛЬНАЯ ВЕРСИЯ)
+   АДАПТИВНОСТЬ
    ========================================== */
 @media (max-width:900px){
   :root { --hh: 76px; }
-  
   .burger{display:block}
   header nav{position:absolute;top:100%;left:0;right:0;margin:0;display:none;flex-direction:column;align-items:stretch;gap:0;background:#141210;border-bottom:1px solid var(--line);padding:6px max(var(--gut),env(safe-area-inset-left)) 16px}
   header.open nav{display:flex}
-  
   header nav a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
   header nav a.nav-cta{margin-top:10px;text-align:center;border-bottom:0;padding:.8em 1em}
-  
   .atmo{grid-template-columns:1fr}
 }
-
 @media (max-width:640px){
   body{font-size:16px}
-  
   .logo img { height: 52px; }
   .logo span { font-size: 2rem; padding-top: 4px; }
   .logo { gap: 12px; }
-  
   .hero{min-height:74svh;padding-top:90px}
   .cta .btn{flex:1 1 100%}
   .row2{grid-template-columns:1fr}
