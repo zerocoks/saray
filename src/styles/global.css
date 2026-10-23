@@ -12,10 +12,7 @@
   --shadow:0 10px 30px rgba(0,0,0,.35);--shadow-hi:0 20px 46px rgba(0,0,0,.5);
   --sans:"Jost","Futura","Century Gothic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
-  
-  /* Высота шапки на десктопе */
   --hh: 110px; 
-  
   --gut:clamp(18px,4vw,32px);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -203,8 +200,40 @@ body>footer p{margin:0 0 .6em}
 .menu-nav.is-hidden { max-height: 0; opacity: 0; border-color: transparent; pointer-events: none; }
 body.header-hidden .menu-nav { top: 0; }
 .menu-nav .wrap{padding-block:2px}
-.chips{display:flex;flex-wrap:nowrap;gap:8px 24px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
-.chips::-webkit-scrollbar{display:none}
+
+/* ==========================================
+   ИСПРАВЛЕННЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ
+   ========================================== */
+.chips{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:8px 24px;
+  overflow-x:auto;
+  padding:2px 0 10px 0; /* Добавили отступ снизу, чтобы полоса не наезжала на текст */
+  touch-action: pan-x; /* Для удобного свайпа на тач-экранах */
+}
+
+/* Стилизация полосы прокрутки для Webkit (Chrome, Safari, Edge) */
+.chips::-webkit-scrollbar {
+  height: 4px; /* Делаем полосу тонкой и аккуратной */
+}
+.chips::-webkit-scrollbar-track {
+  background: transparent; 
+}
+.chips::-webkit-scrollbar-thumb {
+  background: rgba(237,230,218,.2); /* Цвет в стиле сайта */
+  border-radius: 4px;
+}
+.chips::-webkit-scrollbar-thumb:hover {
+  background: var(--copper-hi); /* При наведении становится медной */
+}
+
+/* Для Firefox */
+.chips {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(237,230,218,.2) transparent;
+}
+
 .chips a,.chips button{flex:none;font:400 .98rem var(--sans);text-decoration:none;color:var(--muted);background:none;border:0;border-bottom:1px solid transparent;padding:10px 0;cursor:pointer}
 .chips a:hover,.chips [aria-current],.chips [aria-selected=true]{color:var(--text);border-bottom-color:var(--copper-hi)}
 
@@ -242,7 +271,6 @@ section.cat:first-of-type{margin-top:24px}
    МАГИЯ: СКРЫВАЕМ ПЛЮСИКИ ДО НАВЕДЕНИЯ
    ========================================== */
 @media (hover: hover) {
-  /* Прячем кнопку "+" по умолчанию */
   .item .buy .add,
   .dish-card .buy .add {
     opacity: 0;
@@ -250,8 +278,6 @@ section.cat:first-of-type{margin-top:24px}
     pointer-events: none;
     transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
   }
-  
-  /* Показываем при наведении на карточку/строку, либо при фокусе (для доступности) */
   .item:hover .buy .add,
   .dish-card:hover .buy .add,
   .item:focus-within .buy .add,
@@ -262,7 +288,7 @@ section.cat:first-of-type{margin-top:24px}
   }
 }
 
-/* На мобильных устройствах (где нет мышки) кнопка всегда видима */
+/* На мобильных устройствах (где нет мышки) кнопка всегда видима, а скроллбар скрыт */
 @media (hover: none) {
   .item .buy .add,
   .dish-card .buy .add {
@@ -270,6 +296,9 @@ section.cat:first-of-type{margin-top:24px}
     transform: none;
     pointer-events: auto;
   }
+  /* Прячем полосу прокрутки на мобилках, чтобы не портила вид */
+  .chips::-webkit-scrollbar { display: none; }
+  .chips { scrollbar-width: none; }
 }
 
 /* ==========================================
