@@ -121,7 +121,39 @@ import BookingForm from '../components/BookingForm.astro';
     </div>
   </section>
 
-  <section class="section" id="akcii" aria-labelledby="akcii-title">
+  <!-- НОВЫЙ БЛОК: БАНКЕТЫ -->
+  <section class="section" id="banket" aria-labelledby="banket-title">
+    <div class="wrap cols">
+      <div class="reveal">
+        <p class="eyebrow">Мероприятия</p>
+        <h2 id="banket-title">Банкеты и праздники</h2>
+        <p class="lead">Свадьбы, юбилеи, корпоративы. Вместительный зал, живая музыка и банкетное меню. Мы возьмем организацию вашего праздника на себя.</p>
+        <ul class="book-note">
+          <li>Вместимость до 80 гостей</li>
+          <li>Собственная кухня и бар</li>
+          <li>Помощь в оформлении зала</li>
+        </ul>
+      </div>
+      <div class="reveal" style="--d:100ms">
+        <form id="banquet-form" class="book-card" style="max-width: none;">
+          <div class="row2">
+            <label class="field"><span class="lbl">Имя</span><input name="name" required maxlength="60" autocomplete="name" spellcheck="false"></label>
+            <label class="field"><span class="lbl">Телефон</span><input name="phone" type="tel" inputmode="tel" required maxlength="25" autocomplete="tel" placeholder="+7 900 000-00-00" spellcheck="false"></label>
+          </div>
+          <div class="row2">
+            <label class="field"><span class="lbl">Дата (примерно)</span><input name="date" type="date"></label>
+            <label class="field"><span class="lbl">Кол-во гостей</span><input name="guests" type="number" min="1" max="100" placeholder="Например, 20"></label>
+          </div>
+          <label class="field"><span class="lbl">Комментарий (тип мероприятия)</span><textarea name="comment" rows="2" maxlength="300" placeholder="Свадьба, корпоратив или день рождения?"></textarea></label>
+          <label class="c"><input type="checkbox" name="consent" required> <span>Согласен на обработку данных, <a href="/privacy">политика</a></span></label>
+          <button class="btn fill" type="submit">Запросить расчет</button>
+          <p class="ok" id="banquet-msg" role="status" aria-live="polite" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="akcii" aria-labelledby="akcii-title">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
@@ -142,7 +174,7 @@ import BookingForm from '../components/BookingForm.astro';
     </div>
   </section>
 
-  <section class="section alt" id="otzyvy" aria-labelledby="otzyvy-title">
+  <section class="section" id="otzyvy" aria-labelledby="otzyvy-title">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
@@ -158,7 +190,7 @@ import BookingForm from '../components/BookingForm.astro';
     </div>
   </section>
 
-  <section class="section" id="bron" aria-labelledby="bron-title">
+  <section class="section alt" id="bron" aria-labelledby="bron-title">
     <div class="wrap cols">
       <div class="reveal">
         <p class="eyebrow">Бронь</p>
@@ -176,7 +208,7 @@ import BookingForm from '../components/BookingForm.astro';
     </div>
   </section>
 
-  <section class="section alt" id="kontakty" aria-labelledby="kontakty-title">
+  <section class="section" id="kontakty" aria-labelledby="kontakty-title">
     <div class="wrap cols">
       
       <div class="contacts reveal">
@@ -191,7 +223,6 @@ import BookingForm from '../components/BookingForm.astro';
               </a>
             </dd>
           </div>
-          <!-- ДОБАВИЛИ ЧАСЫ РАБОТЫ -->
           <div>
             <dt>Часы работы</dt>
             <dd>Ежедневно с 12:00 до 00:00</dd>
@@ -210,7 +241,7 @@ import BookingForm from '../components/BookingForm.astro';
         </div>
       </div>
       
-      <div class="reveal" style="--d:100ms; background: var(--surface); padding: clamp(24px, 4vw, 32px); border-radius: var(--radius); border: 1px solid var(--line);">
+      <div class="reveal" style="--d:100ms; background: var(--surface-2); padding: clamp(24px, 4vw, 32px); border-radius: var(--radius); border: 1px solid var(--line);">
         <h3 style="margin-bottom: 1.5em;">Остались вопросы?</h3>
         <form id="feedback-form" style="max-width: none;">
           <div class="row2">
@@ -238,48 +269,50 @@ import BookingForm from '../components/BookingForm.astro';
     (function () {
       var f = document.getElementById('feedback-form'), msg = document.getElementById('feedback-msg');
       if (!f) return;
-      
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         var b = f.querySelector('button[type=submit]'), label = b.textContent;
         var digits = f.phone.value.replace(/\D/g, '');
-        
-        if (digits.length < 10 || digits.length > 11) { 
-          alert('Проверьте телефон: нужно 10–11 цифр.'); 
-          f.phone.focus(); 
-          return; 
-        }
-        
+        if (digits.length < 10 || digits.length > 11) { alert('Проверьте телефон.'); f.phone.focus(); return; }
         b.disabled = true; b.textContent = 'Отправляем…'; msg.hidden = true;
-        
-        var body = { 
-          type: 'feedback',
-          name: f.name.value, 
-          phone: f.phone.value, 
-          message: f.message.value
-        };
-        
-        fetch('/api/send', { 
-          method: 'POST', 
-          headers: { 'Content-Type': 'application/json' }, 
-          body: JSON.stringify(body) 
-        })
+        var body = { type: 'feedback', name: f.name.value, phone: f.phone.value, message: f.message.value };
+        fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
           .then(function (r) { return r.json(); })
           .then(function (res) {
-            if (res.ok) {
-              msg.textContent = 'Спасибо! Мы свяжемся с вами.';
-              msg.hidden = false;
-              f.reset();
-            } else {
-              alert('Ошибка отправки. Позвоните нам: +7 (383) 225-11-25.');
-            }
+            if (res.ok) { msg.textContent = 'Спасибо! Мы свяжемся с вами.'; msg.hidden = false; f.reset(); }
+            else { alert('Ошибка отправки. Позвоните нам.'); }
           })
-          .catch(function () {
-            alert('Нет связи с сервером.');
+          .catch(function () { alert('Нет связи с сервером.'); })
+          .then(function () { b.disabled = false; b.textContent = label; });
+      });
+    })();
+
+    // Скрипт для формы БАНКЕТОВ
+    (function () {
+      var f = document.getElementById('banquet-form'), msg = document.getElementById('banquet-msg');
+      if (!f) return;
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var b = f.querySelector('button[type=submit]'), label = b.textContent;
+        var digits = f.phone.value.replace(/\D/g, '');
+        if (digits.length < 10 || digits.length > 11) { alert('Проверьте телефон.'); f.phone.focus(); return; }
+        b.disabled = true; b.textContent = 'Отправляем…'; msg.hidden = true;
+        var body = { 
+          type: 'banquet', 
+          name: f.name.value, 
+          phone: f.phone.value, 
+          date: f.date.value,
+          guests: f.guests.value,
+          comment: f.comment.value 
+        };
+        fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res.ok) { msg.textContent = 'Заявка принята! Менеджер свяжется с вами.'; msg.hidden = false; f.reset(); }
+            else { alert('Ошибка отправки. Позвоните нам.'); }
           })
-          .then(function () {
-            b.disabled = false; b.textContent = label;
-          });
+          .catch(function () { alert('Нет связи с сервером.'); })
+          .then(function () { b.disabled = false; b.textContent = label; });
       });
     })();
 

@@ -43,6 +43,13 @@ export async function POST({ request }) {
       text += `<b>Имя:</b> ${data.name}\n`;
       text += `<b>Телефон:</b> ${data.phone}\n`;
       text += `<b>Сообщение:</b> ${data.message}\n`;
+    } else if (data.type === 'banquet') {
+      text += `<b>Тип:</b> 🎉 Заявка на банкет / мероприятие\n`;
+      text += `<b>Имя:</b> ${data.name}\n`;
+      text += `<b>Телефон:</b> ${data.phone}\n`;
+      text += `<b>Дата:</b> ${data.date || 'Не указана'}\n`;
+      text += `<b>Гостей:</b> ${data.guests || 'Не указано'}\n`;
+      text += `<b>Пожелания:</b> ${data.comment || 'Нет'}\n`;
     }
 
     const tgUrl = `https://api.telegram.org/bot${token}/sendMessage`;

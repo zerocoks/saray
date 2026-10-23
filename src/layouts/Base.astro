@@ -22,7 +22,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Playfair+Display:wght@400&display=swap&subset=cyrillic" rel="stylesheet">
   <script>document.documentElement.classList.add('js')</script>
   
-  <!-- Микроразметка с часами работы -->
   <script type="application/ld+json">
     {
       "@context":"https://schema.org",
@@ -54,9 +53,13 @@ const { title = "Сарай — ресторан в Новосибирске", d
       <nav id="nav" aria-label="Основное меню">
         <a href="/menu">Меню</a>
         <a href="/#atmosfera">Атмосфера</a>
+        <a href="/#banket">Банкеты</a>
         <a href="/#akcii">Акции</a>
         <a href="/#kontakty">Контакты</a>
-        <a href="tel:+73832251125">+7 (383) 225-11-25</a>
+        <a href="tel:+73832251125" class="header-phone">
+          +7 (383) 225-11-25
+          <span class="header-hours">Ежедневно 12:00–00:00</span>
+        </a>
         <a class="nav-cta" href="/#bron">Забронировать</a>
       </nav>
       <div class="hdr-actions">
@@ -79,8 +82,9 @@ const { title = "Сарай — ресторан в Новосибирске", d
   <footer>
     <div class="wrap">
       <p>
-        Ежедневно с 12:00 до 00:00 · г. Новосибирск, ул. Дачная, 19, 1 этаж · 
-        <a href="tel:+73832251125">+7 (383) 225-11-25</a>
+        г. Новосибирск, ул. Дачная, 19, 1 этаж · 
+        <a href="tel:+73832251125">+7 (383) 225-11-25</a> · 
+        Ежедневно с 12:00 до 00:00
       </p>
       <p>
         <a href="https://vk.com/barak_saray_ambar" target="_blank" rel="noopener">ВКонтакте</a> · 
@@ -91,93 +95,51 @@ const { title = "Сарай — ресторан в Новосибирске", d
   </footer>
 
   <script>
-    // 1. Логика мобильного меню (бургер)
+    // Скрипты (меню, параллакс и т.д.)
     (function () {
       var h = document.querySelector('header'), b = document.getElementById('burger');
       if (!b) return;
-      function set(open) { 
-        h.classList.toggle('open', open); 
-        b.setAttribute('aria-expanded', String(open)); 
-        b.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню'); 
-      }
+      function set(open) { h.classList.toggle('open', open); b.setAttribute('aria-expanded', String(open)); b.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню'); }
       b.addEventListener('click', function () { set(!h.classList.contains('open')); });
       var nav = document.getElementById('nav');
-      if (nav) {
-        nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
-      }
+      if (nav) { nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); }); }
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
       document.addEventListener('click', function (e) { if (!e.target.closest('header')) set(false); });
       matchMedia('(min-width: 901px)').addEventListener('change', function (m) { if (m.matches) set(false); });
     })();
 
-    // 2. Плавное появление блоков (.reveal) при прокрутке
     (function () {
       var els = document.querySelectorAll('.reveal');
-      if (!('IntersectionObserver' in window)) { 
-        els.forEach(function (e) { e.classList.add('in'); }); 
-        return; 
-      }
+      if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
       var io = new IntersectionObserver(function (list) {
-        list.forEach(function (x) { 
-          if (x.isIntersecting) { 
-            x.target.classList.add('in'); 
-            io.unobserve(x.target); 
-          } 
-        });
+        list.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-      
       els.forEach(function (e) { io.observe(e); });
     })();
 
-    // 3. Новые эффекты: Параллакс, Умная шапка, Магнитные кнопки
     (function () {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      var header = document.querySelector('header');
-      var heroImg = document.querySelector('.hero-img');
-      var lastScroll = 0;
-      var ticking = false;
-      var isDesktop = window.innerWidth > 900;
-
+      var header = document.querySelector('header'), heroImg = document.querySelector('.hero-img'), lastScroll = 0, ticking = false, isDesktop = window.innerWidth > 900;
       window.addEventListener('scroll', function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
             var currentScroll = window.scrollY;
-
-            if (currentScroll > 50) { header.classList.add('is-scrolled'); } 
-            else { header.classList.remove('is-scrolled'); }
-
-            if (currentScroll > lastScroll && currentScroll > 200) { 
-              header.classList.add('is-hidden'); 
-              document.body.classList.add('header-hidden'); 
-            } else { 
-              header.classList.remove('is-hidden'); 
-              document.body.classList.remove('header-hidden'); 
-            }
-
-            if (isDesktop && heroImg && currentScroll < window.innerHeight) {
-              heroImg.style.transform = 'translateY(' + (currentScroll * 0.4) + 'px) scale(1.05)';
-            }
-            
-            lastScroll = currentScroll;
-            ticking = false;
+            if (currentScroll > 50) { header.classList.add('is-scrolled'); } else { header.classList.remove('is-scrolled'); }
+            if (currentScroll > lastScroll && currentScroll > 200) { header.classList.add('is-hidden'); document.body.classList.add('header-hidden'); } else { header.classList.remove('is-hidden'); document.body.classList.remove('header-hidden'); }
+            if (isDesktop && heroImg && currentScroll < window.innerHeight) { heroImg.style.transform = 'translateY(' + (currentScroll * 0.4) + 'px) scale(1.05)'; }
+            lastScroll = currentScroll; ticking = false;
           });
           ticking = true;
         }
       }, { passive: true });
-
       if (window.matchMedia('(hover: hover)').matches) {
         var magnets = document.querySelectorAll('.btn.fill, .nav-cta');
         magnets.forEach(function (btn) {
           btn.addEventListener('mousemove', function (e) {
-            var rect = btn.getBoundingClientRect();
-            var x = e.clientX - rect.left - rect.width / 2;
-            var y = e.clientY - rect.top - rect.height / 2;
+            var rect = btn.getBoundingClientRect(), x = e.clientX - rect.left - rect.width / 2, y = e.clientY - rect.top - rect.height / 2;
             btn.style.transform = 'translate(' + (x * 0.2) + 'px, ' + (y * 0.2) + 'px)';
           });
-          btn.addEventListener('mouseleave', function () {
-            btn.style.transform = 'translate(0px, 0px)';
-          });
+          btn.addEventListener('mouseleave', function () { btn.style.transform = 'translate(0px, 0px)'; });
         });
       }
     })();
