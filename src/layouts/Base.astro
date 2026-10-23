@@ -15,7 +15,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
   
-  <!-- ФАВИКОНКА (Черная версия) -->
   <link rel="icon" type="image/png" href="/img/favicon-black.png" />
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +30,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
   
   <header>
     <div class="wrap">
-      <!-- ЛОГОТИП В ШАПКЕ (Белый) -->
       <a class="logo" href="/">
         <img src="/img/logo.png" alt="Сарай" />
         <span>Сарай</span>
@@ -64,7 +62,12 @@ const { title = "Сарай — ресторан в Новосибирске", d
   
   <footer>
     <div class="wrap">
-      <p>г. Новосибирск, ул. Дачная, 19, 1 этаж · <a href="tel:+73832251125">+7 (383) 225-11-25</a> · <a href="https://vk.com/barak_saray_ambar">ВКонтакте</a></p>
+      <p>
+        г. Новосибирск, ул. Дачная, 19, 1 этаж · 
+        <a href="tel:+73832251125">+7 (383) 225-11-25</a> · 
+        <a href="https://vk.com/barak_saray_ambar" target="_blank" rel="noopener">ВКонтакте</a> · 
+        <a href="https://www.instagram.com/bar_saray/" target="_blank" rel="noopener">Instagram</a>
+      </p>
       <p><a href="/privacy">Политика обработки персональных данных</a></p>
     </div>
   </footer>
@@ -117,17 +120,13 @@ const { title = "Сарай — ресторан в Новосибирске", d
       var lastScroll = 0;
       var ticking = false;
 
-      // Параллакс и Умная шапка
       window.addEventListener('scroll', function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
             var currentScroll = window.scrollY;
 
-            if (currentScroll > 50) { 
-              header.classList.add('is-scrolled'); 
-            } else { 
-              header.classList.remove('is-scrolled'); 
-            }
+            if (currentScroll > 50) { header.classList.add('is-scrolled'); } 
+            else { header.classList.remove('is-scrolled'); }
 
             if (currentScroll > lastScroll && currentScroll > 200) { 
               header.classList.add('is-hidden'); 
@@ -148,7 +147,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
         }
       }, { passive: true });
 
-      // Магнитные кнопки
       if (window.matchMedia('(hover: hover)').matches) {
         var magnets = document.querySelectorAll('.btn.fill, .nav-cta');
         magnets.forEach(function (btn) {
