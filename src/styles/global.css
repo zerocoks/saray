@@ -12,13 +12,12 @@
   --shadow:0 10px 30px rgba(0,0,0,.35);--shadow-hi:0 20px 46px rgba(0,0,0,.5);
   --sans:"Jost","Futura","Century Gothic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
-  
   --hh: 110px; 
   --gut:clamp(18px,4vw,32px);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 
-/* ---------- База с магией фона ---------- */
+/* ---------- База с топографическим рельефом ---------- */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hh) + 90px);-webkit-text-size-adjust:100%}
@@ -28,27 +27,21 @@ body{
   font:400 17px/1.65 var(--sans);
   color:var(--text);
   
-  /* МАГИЯ ФОНА: Мягкие градиентные свечения */
+  /* ФОН: Градиентные свечения + Топографические линии (горы) */
   background-color: var(--bg);
   background-image: 
-    radial-gradient(ellipse at 50% -10%, rgba(196, 112, 62, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse at 0% 50%, rgba(237, 230, 218, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 80%, rgba(196, 112, 62, 0.05) 0%, transparent 50%);
+    /* 1. Мягкие световые пятна */
+    radial-gradient(ellipse at 50% -10%, rgba(196, 112, 62, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 0% 50%, rgba(237, 230, 218, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 80%, rgba(196, 112, 62, 0.06) 0%, transparent 50%),
+    /* 2. Тонкий контурный рельеф (SVG паттерн) */
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-50,100 C50,100 50,20 100,20 C150,20 150,100 250,100' fill='none' stroke='rgba(237,230,218,0.025)' stroke-width='1'/%3E%3Cpath d='M-50,120 C50,120 50,40 100,40 C150,40 150,120 250,120' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3Cpath d='M-50,80 C50,80 50,0 100,0 C150,0 150,80 250,80' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3C/svg%3E");
+  
   background-attachment: fixed;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 400px 400px;
   
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-}
-
-/* МАГИЯ ФОНА: Тончайшая текстура шума (убирает "цифровую пустоту") */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 img{display:block;max-width:100%;height:auto}
@@ -124,14 +117,12 @@ header.open .burger span{background:transparent}
 header.open .burger span::before{top:0;transform:rotate(45deg)}
 header.open .burger span::after{top:0;transform:rotate(-45deg)}
 
-/* ---------- Секции главной (с мягкими переходами) ---------- */
+/* ---------- Секции главной ---------- */
 .section{padding:clamp(64px,9vw,112px) 0}
 .section.alt{
-  /* Вместо резкого цвета делаем плавный градиент */
-  background: linear-gradient(180deg, rgba(29, 26, 23, 1) 0%, rgba(20, 18, 16, 1) 100%);
+  background: linear-gradient(180deg, rgba(29, 26, 23, 0.6) 0%, rgba(20, 18, 16, 0.8) 100%);
   border-top: 1px solid rgba(237, 230, 218, 0.05);
   border-bottom: 1px solid rgba(237, 230, 218, 0.05);
-  position: relative;
 }
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
 .section-head h2{margin:0}
