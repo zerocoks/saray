@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import BookingForm from '../components/BookingForm.astro';
+---
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <img class="hero-img" src="/img/hero.webp" alt="Зал ресторана «Сарай»" width="1920" height="1080" fetchpriority="high" decoding="async">
+    <div class="wrap">
+      <p class="eyebrow">Новосибирск · ул. Дачная, 19</p>
+      <h1 id="hero-title">Сарай</h1>
+      <p class="lead">Восточная кухня на огне: баранина, плов, хачапури. Дерево, тёплый свет и ужин без спешки.</p>
+      <div class="cta">
+        <a class="btn fill" href="#bron">Забронировать стол</a>
+        <a class="btn" href="/menu">Меню и доставка</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="hity" aria-labelledby="hity-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Любимое у гостей</p>
+          <h2 id="hity-title">Хиты кухни</h2>
+        </div>
+        <a class="btn ghost" href="/menu">Смотреть всё меню →</a>
+      </div>
+      
+      <div class="cards">
+        <article class="card dish-card reveal" style="--d:0ms">
+          <div class="media"><img src="/img/dishes/myasniedelicatesy.jpg" alt="Мясные деликатесы" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Мясные деликатесы</h3><p class="desc">ростбиф, рулет, буженина, язык</p>
+            <div class="buys">
+              <div class="buy" data-key="company.0" data-name="Мясные деликатесы" data-price="1450">
+                <span class="vp"><b>1 450 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="card dish-card reveal" style="--d:80ms">
+          <div class="media"><img src="/img/dishes/poastbeefsrukoloy.jpg" alt="Ростбиф с рукколой" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Ростбиф с рукколой</h3><p class="desc">с имбирным соусом</p>
+            <div class="buys">
+              <div class="buy" data-key="cold.1" data-name="Ростбиф с рукколой" data-price="960">
+                <span class="vp"><b>960 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="card dish-card reveal" style="--d:160ms">
+          <div class="media"><img src="/img/dishes/assortisirov.jpg" alt="Ассорти сыров" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Ассорти сыров</h3><p class="desc">виноград, крекер, мёд, грецкий орех</p>
+            <div class="buys">
+              <div class="buy" data-key="company.3" data-name="Ассорти сыров" data-price="2250">
+                <span class="vp"><b>2 250 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="card dish-card reveal" style="--d:0ms">
+          <div class="media"><img src="/img/dishes/ruletikibaklashan.jpg" alt="Рулетики из баклажанов" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Рулетики из баклажанов</h3><p class="desc">сыр Фета, грецкие орехи, чеснок</p>
+            <div class="buys">
+              <div class="buy" data-key="cold.7" data-name="Рулетики из баклажанов" data-price="495">
+                <span class="vp"><b>495 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="card dish-card reveal" style="--d:80ms">
+          <div class="media"><img src="/img/dishes/karpachostelyatiny.jpg" alt="Карпаччо из мраморной телятины" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Карпаччо из телятины</h3><p class="desc">с рукколой и пармезаном</p>
+            <div class="buys">
+              <div class="buy" data-key="cold.14" data-name="Карпаччо из мраморной телятины" data-price="950">
+                <span class="vp"><b>950 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="card dish-card reveal" style="--d:160ms">
+          <div class="media"><img src="/img/dishes/zakuskapodvodku.jpg" alt="Закуска под водку" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <h3>Закуска под водку</h3><p class="desc">грузди, белые грибы, сало, огурцы</p>
+            <div class="buys">
+              <div class="buy" data-key="company.4" data-name="Закуска под водку" data-price="910">
+                <span class="vp"><b>910 ₽</b></span>
+                <span class="ctl"><button type="button" class="add" data-act="add">+</button></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="atmosfera" aria-labelledby="atmo-title">
+    <div class="wrap atmo">
+      <div class="reveal">
+        <p class="eyebrow">Атмосфера</p>
+        <h2 id="atmo-title">Ужин у огня</h2>
+        <p>Мы готовим на мангале и в тандыре: шашлык, плов, горячие лепёшки. Дерево, мягкий свет и диваны, на которых не хочется торопиться.</p>
+        <a class="btn" href="#bron">Забронировать стол</a>
+      </div>
+      <div class="gallery reveal" style="--d:120ms">
+        <figure class="g1"><img src="/img/atmosphere-1.webp" alt="Уголок с диванами" width="900" height="600" loading="lazy"></figure>
+        <figure class="g2"><img src="/img/atmosphere-2.webp" alt="Зал и барная стойка" width="900" height="600" loading="lazy"></figure>
+        <figure class="g3"><img src="/img/atmosphere-3.webp" alt="Проход между стеллажами" width="900" height="600" loading="lazy"></figure>
+        <figure class="g4"><img src="/img/atmosphere-4.webp" alt="Диваны у деревянной стойки" width="900" height="600" loading="lazy"></figure>
+        <figure class="g5"><img src="/img/atmosphere-5.webp" alt="Барная стойка" width="900" height="600" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="akcii" aria-labelledby="akcii-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Предложения</p>
+          <h2 id="akcii-title">Акции</h2>
+        </div>
+      </div>
+      <div class="promos">
+        <article class="card promo-card reveal" data-until="">
+          <div class="media"><img src="/img/atmosphere-2.webp" alt="Бизнес-ланч в зале ресторана" width="800" height="600" loading="lazy"></div>
+          <div class="body">
+            <span class="badge">Действует постоянно</span>
+            <h3>Бизнес-ланч</h3>
+            <p class="desc">По будням с 12:00 до 16:00. Меню меняется каждую неделю.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="otzyvy" aria-labelledby="otzyvy-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">Отзывы</p>
+          <h2 id="otzyvy-title">Что говорят гости</h2>
+        </div>
+      </div>
+      
+      <div class="review-widget-wrap reveal">
+        <div class="rw-widget" data-widget="wg_74ad2da6ca3a"></div>
+        <script is:inline src="https://otzyvist.ru/w.js" async></script>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bron" aria-labelledby="bron-title">
+    <div class="wrap cols">
+      <div class="reveal">
+        <p class="eyebrow">Бронь</p>
+        <h2 id="bron-title">Забронировать стол</h2>
+        <p class="lead">Выберите дату, время и количество гостей — администратор перезвонит и подтвердит бронь.</p>
+        <ul class="book-note">
+          <li>Ответим в рабочее время ресторана</li>
+          <li>Банкет или большая компания — позвоните, обсудим детали</li>
+          <li>Удобнее позвонить: <a href="tel:+73832251125">+7 (383) 225-11-25</a></li>
+        </ul>
+      </div>
+      <div class="reveal" style="--d:100ms">
+        <BookingForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОК КОНТАКТОВ (Контакты + Форма + Карта) -->
+  <section class="section alt" id="kontakty" aria-labelledby="kontakty-title">
+    <div class="wrap cols">
+      
+      <!-- 1. КОНТАКТЫ -->
+      <div class="contacts reveal">
+        <p class="eyebrow">Контакты</p>
+        <h2 id="kontakty-title">Как нас найти</h2>
+        <dl>
+          <div><dt>Адрес</dt><dd>Новосибирск, ул. Дачная, 19, 1 этаж</dd></div>
+          <div><dt>Телефон</dt><dd><a href="tel:+73832251125">+7 (383) 225-11-25</a></dd></div>
+          <div><dt>Соцсети</dt><dd><a href="https://vk.com/barak_saray_ambar">ВКонтакте</a></dd></div>
+        </dl>
+        <div class="cta">
+          <a class="btn fill" href="tel:+73832251125">Позвонить</a>
+        </div>
+      </div>
+      
+      <!-- 2. ФОРМА ОБРАТНОЙ СВЯЗИ -->
+      <div class="reveal" style="--d:100ms; background: var(--surface); padding: clamp(24px, 4vw, 32px); border-radius: var(--radius); border: 1px solid var(--line);">
+        <h3 style="margin-bottom: 1.5em;">Остались вопросы?</h3>
+        <form id="feedback-form" style="max-width: none;">
+          <div class="row2">
+            <label class="field"><span class="lbl">Имя</span><input name="name" required maxlength="60" autocomplete="name" spellcheck="false"></label>
+            <label class="field"><span class="lbl">Телефон</span><input name="phone" type="tel" inputmode="tel" required maxlength="25" autocomplete="tel" placeholder="+7 900 000-00-00" spellcheck="false"></label>
+          </div>
+          <label class="field"><span class="lbl">Сообщение</span><textarea name="message" required rows="2" maxlength="500" placeholder="Напишите ваш вопрос..."></textarea></label>
+          <label class="c"><input type="checkbox" name="consent" required> <span>Согласен на обработку данных, <a href="/privacy">политика</a></span></label>
+          <button class="btn fill" type="submit">Отправить</button>
+          <p class="ok" id="feedback-msg" role="status" aria-live="polite" hidden></p>
+        </form>
+      </div>
+
+      <!-- 3. КАРТА (Ведет на 2ГИС) -->
+      <a class="map photo reveal" style="--d:200ms" href="https://go.2gis.com/Iq4Qz" target="_blank" rel="noopener" aria-label="Открыть ресторан на 2ГИС">
+        <img src="/img/facade.webp" alt="" width="900" height="600" loading="lazy">
+        <strong>Мы на 2ГИС</strong>
+        <span>Открыть карту →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <script>
+    // Скрипт для формы обратной связи
+    (function () {
+      var f = document.getElementById('feedback-form'), msg = document.getElementById('feedback-msg');
+      if (!f) return;
+      
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var b = f.querySelector('button[type=submit]'), label = b.textContent;
+        var digits = f.phone.value.replace(/\D/g, '');
+        
+        if (digits.length < 10 || digits.length > 11) { 
+          alert('Проверьте телефон: нужно 10–11 цифр.'); 
+          f.phone.focus(); 
+          return; 
+        }
+        
+        b.disabled = true; b.textContent = 'Отправляем…'; msg.hidden = true;
+        
+        var body = { 
+          type: 'feedback',
+          name: f.name.value, 
+          phone: f.phone.value, 
+          message: f.message.value
+        };
+        
+        fetch('/api/send', { 
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' }, 
+          body: JSON.stringify(body) 
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res.ok) {
+              msg.textContent = 'Спасибо! Мы свяжемся с вами.';
+              msg.hidden = false;
+              f.reset();
+            } else {
+              alert('Ошибка отправки. Позвоните нам: +7 (383) 225-11-25.');
+            }
+          })
+          .catch(function () {
+            alert('Нет связи с сервером.');
+          })
+          .then(function () {
+            b.disabled = false; b.textContent = label;
+          });
+      });
+    })();
+
+    // Скрываем истекшие акции
+    (function () {
+      var d = new Date(), t = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      var cards = document.querySelectorAll('.promo-card[data-until]'), left = 0;
+      cards.forEach(function (c) { var u = c.dataset.until; if (u && u < t) c.hidden = true; else left++; });
+      var sec = document.getElementById('akcii'); if (sec && cards.length && !left) sec.hidden = true;
+    })();
+  </script>
+</Base>

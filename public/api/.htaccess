@@ -1,0 +1,4 @@
+# Apache: не отдавать служебные файлы напрямую
+<FilesMatch "^(lib\.php|config\.php|config\.example\.php)$">
+  Require all denied
+</FilesMatch>

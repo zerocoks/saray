@@ -1,0 +1,104 @@
+---
+// src/components/BookingForm.astro
+---
+<form id="book" class="book-card" method="post" novalidate>
+  <div class="row2">
+    <label class="field"><span class="lbl">Имя</span><input name="name" required maxlength="60" autocomplete="name" spellcheck="false"></label>
+    <label class="field"><span class="lbl">Телефон</span><input name="phone" type="tel" inputmode="tel" required maxlength="25" autocomplete="tel" placeholder="+7 900 000-00-00" spellcheck="false"></label>
+  </div>
+  <fieldset class="field">
+    <legend>Гостей</legend>
+    <div class="pick" id="guests">
+      <label><input type="radio" name="guests" value="2"><span>2</span></label>
+      <label><input type="radio" name="guests" value="4"><span>4</span></label>
+      <label><input type="radio" name="guests" value="6"><span>6</span></label>
+      <label><input type="radio" name="guests" value="8"><span>8</span></label>
+      <label><input type="radio" name="guests" value="other"><span>Другое</span></label>
+    </div>
+    <input name="guests_other" id="guests-other" type="number" min="1" max="40" inputmode="numeric" placeholder="Сколько гостей (1–40)" hidden aria-label="Сколько гостей">
+  </fieldset>
+  <label class="field"><span class="lbl">Дата</span><input name="date" id="book-date" type="date" required></label>
+  <fieldset class="field">
+    <legend>Время</legend>
+    <div class="pick slots" id="slots">
+      <label><input type="radio" name="time" value="12:00"><span>12:00</span></label>
+      <label><input type="radio" name="time" value="14:00"><span>14:00</span></label>
+      <label><input type="radio" name="time" value="16:00"><span>16:00</span></label>
+      <label><input type="radio" name="time" value="18:00"><span>18:00</span></label>
+      <label><input type="radio" name="time" value="20:00"><span>20:00</span></label>
+      <label><input type="radio" name="time" value="22:00"><span>22:00</span></label>
+    </div>
+  </fieldset>
+  <label class="c"><input type="checkbox" name="consent" required> <span>Согласен на обработку персональных данных, <a href="/privacy">политика</a></span></label>
+  <button class="btn fill" type="submit">Забронировать стол</button>
+  <p class="err" id="book-msg" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+(function () {
+  var f = document.getElementById('book'), msg = document.getElementById('book-msg'), date = document.getElementById('book-date');
+  var other = document.getElementById('guests-other');
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function say(text, bad) { msg.textContent = text; msg.hidden = false; msg.className = bad ? 'err' : 'ok'; }
+  date.min = today();
+
+  function syncSlots() {
+    var isToday = date.value === today(), now = new Date(), limit = now.getHours() * 60 + now.getMinutes() + 30;
+    Array.prototype.forEach.call(f.querySelectorAll('input[name=time]'), function (r) {
+      var p = r.value.split(':'), past = isToday && (+p[0] * 60 + +p[1]) < limit;
+      r.disabled = past; if (past && r.checked) r.checked = false;
+    });
+  }
+  date.addEventListener('change', syncSlots);
+  f.addEventListener('change', function (e) {
+    if (e.target.name === 'guests') { other.hidden = e.target.value !== 'other'; if (!other.hidden) other.focus(); }
+  });
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var g = f.querySelector('input[name=guests]:checked'), t = f.querySelector('input[name=time]:checked');
+    var guests = g ? (g.value === 'other' ? other.value : g.value) : '';
+    var digits = f.phone.value.replace(/\D/g, '');
+    var problem =
+      f.name.value.trim().length < 2 ? [f.name, 'Укажите имя.'] :
+      (digits.length < 10 || digits.length > 11) ? [f.phone, 'Проверьте телефон: нужно 10–11 цифр.'] :
+      !(+guests >= 1 && +guests <= 40) ? [g && g.value === 'other' ? other : f.querySelector('input[name=guests]'), 'Выберите количество гостей.'] :
+      !date.value || date.value < today() ? [date, 'Выберите дату.'] :
+      !t ? [f.querySelector('input[name=time]:not(:disabled)') || date, 'Выберите время.'] :
+      !f.consent.checked ? [f.consent, 'Нужно согласие на обработку данных.'] : null;
+    if (problem) { say(problem[1], true); problem[0].focus(); return; }
+
+    var b = f.querySelector('button[type=submit]'), label = b.textContent;
+    b.disabled = true; b.textContent = 'Отправляем…'; msg.hidden = true;
+    
+    var body = { 
+      type: 'booking',
+      name: f.name.value, 
+      phone: f.phone.value, 
+      guests: guests, 
+      date: date.value, 
+      time: t.value
+    };
+    
+    fetch('/api/send', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify(body) 
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.ok) {
+          window.location.href = '/thanks';
+        } else {
+          say('Ошибка при отправке. Позвоните нам: +7 (383) 225-11-25.', true);
+          b.disabled = false; b.textContent = label;
+        }
+      })
+      .catch(function () { 
+        say('Нет связи с сервером.', true); 
+        b.disabled = false; b.textContent = label;
+      });
+  });
+})();
+</script>

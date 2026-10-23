@@ -1,0 +1,177 @@
+---
+// src/components/Cart.astro
+---
+<div class="cart-overlay" data-act="close-cart" hidden></div>
+<aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+  <div class="cart-head">
+    <h2 id="cart-title">Корзина</h2>
+    <button type="button" class="x" data-act="close-cart" aria-label="Закрыть корзину">×</button>
+  </div>
+  <div class="cart-body">
+    <div id="v-list">
+      <ul class="cart-lines" id="cart-lines"></ul>
+      <p class="empty" id="cart-empty">Корзина пуста. <a href="/menu">Перейти в меню</a></p>
+    </div>
+    <form id="v-form" hidden>
+      <fieldset class="seg">
+        <legend class="sr">Способ получения</legend>
+        <label><input type="radio" name="mode" value="delivery" checked><span>Доставка</span></label>
+        <label><input type="radio" name="mode" value="pickup"><span>Самовывоз</span></label>
+      </fieldset>
+      <label class="f">Имя<input name="name" required maxlength="60" autocomplete="name" spellcheck="false"></label>
+      <label class="f">Телефон<input name="phone" type="tel" inputmode="tel" required maxlength="25" autocomplete="tel" placeholder="+7 900 000-00-00" spellcheck="false"></label>
+      <label class="f" id="f-address">Адрес доставки<textarea name="address" rows="2" maxlength="200" placeholder="Улица, дом, квартира"></textarea></label>
+      <label class="f">Комментарий<textarea name="comment" rows="2" maxlength="500" placeholder="Пожелания к заказу"></textarea></label>
+      <label class="c"><input type="checkbox" name="consent" required> <span>Согласен на обработку данных, <a href="/privacy" target="_blank">политика</a></span></label>
+      <p class="err" id="form-err" role="alert" hidden></p>
+    </form>
+  </div>
+  <div class="cart-foot" id="cart-foot">
+    <dl class="sums">
+      <div><dt>Блюда</dt><dd id="sum-items">0 ₽</dd></div>
+      <div class="total"><dt>Итого</dt><dd id="sum-total">0 ₽</dd></div>
+    </dl>
+    <div class="foot-btns">
+      <button type="button" class="btn ghost" id="btn-back" data-act="back" hidden>Назад</button>
+      <button type="button" class="btn fill" id="btn-next" data-act="next" disabled>Оформить</button>
+      <button type="submit" class="btn fill" id="btn-send" form="v-form" hidden>Отправить</button>
+    </div>
+  </div>
+</aside>
+<button type="button" class="cart-bar" id="cart-bar" data-act="open-cart" hidden>
+  <span>Корзина · <b id="bar-count">0</b></span><span id="bar-total">0 ₽</span>
+</button>
+
+<script>
+(function () {
+  var KEY = 'saray-cart-v1';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var money = function (n) { return Math.round(n).toLocaleString('ru-RU') + ' ₽'; };
+  var cart = {};            
+  var view = 'list';        
+
+  function load() { try { var d = JSON.parse(localStorage.getItem(KEY) || '{}'); if (d && typeof d === 'object') cart = d; } catch (e) { cart = {}; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} }
+  function count() { var n = 0; for (var k in cart) n += cart[k].qty; return n; }
+  function sum() { var s = 0; for (var k in cart) s += cart[k].price * cart[k].qty; return s; }
+
+  function change(key, name, price, d) {
+    var it = cart[key] || (cart[key] = { key: key, name: name, price: price, qty: 0 });
+    it.qty = Math.max(0, Math.min(50, it.qty + d));
+    if (!it.qty) delete cart[key];
+    save(); render();
+  }
+
+  function step(key, q) {
+    return '<span class="step"><button type="button" data-act="dec" data-key="' + key + '">−</button><output>' + q +
+      '</output><button type="button" data-act="inc" data-key="' + key + '">+</button></span>';
+  }
+
+  function render() {
+    $$('.buy').forEach(function (b) {
+      var k = b.dataset.key, q = cart[k] ? cart[k].qty : 0, c = $('.ctl', b), was = c.dataset.q;
+      if (was === String(q)) return;
+      c.dataset.q = q;
+      c.innerHTML = q ? step(k, q) : '<button type="button" class="add" data-act="add" aria-label="Добавить в корзину">+</button>';
+    });
+    var ul = $('#cart-lines'); ul.innerHTML = '';
+    Object.keys(cart).forEach(function (k) {
+      var it = cart[k], li = document.createElement('li');
+      var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = it.name;
+      var pr = document.createElement('b'); pr.textContent = money(it.price * it.qty);
+      var st = document.createElement('span'); st.innerHTML = step(k, it.qty);
+      li.appendChild(nm); li.appendChild(st.firstChild); li.appendChild(pr); ul.appendChild(li);
+    });
+    $('#cart-empty').hidden = count() > 0;
+    var s = sum(), n = count();
+    $('#sum-items').textContent = money(s);
+    $('#sum-total').textContent = money(s);
+    $('#btn-next').disabled = n === 0;
+    var bar = $('#cart-bar'); bar.hidden = n === 0 || !$('#cart').hidden; $('#bar-count').textContent = n; $('#bar-total').textContent = money(s);
+    $$('.cart-count').forEach(function (e) { e.textContent = n; e.hidden = n === 0; });
+  }
+
+  function setView(v) {
+    view = v;
+    $('#v-list').hidden = v !== 'list'; $('#v-form').hidden = v !== 'form';
+    $('#cart-foot').hidden = v === 'done';
+    $('#btn-back').hidden = v !== 'form'; $('#btn-next').hidden = v !== 'list'; $('#btn-send').hidden = v !== 'form';
+    $('#cart-title').textContent = v === 'form' ? 'Оформление' : 'Корзина';
+    render();
+  }
+
+  function open() {
+    $('#cart').hidden = false; $('.cart-overlay').hidden = false; document.body.style.overflow = 'hidden';
+    setView('list'); $('#cart .x').focus();
+  }
+  function close() {
+    $('#cart').hidden = true; $('.cart-overlay').hidden = true; document.body.style.overflow = '';
+    render();
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-act]'); if (!t) return;
+    var act = t.dataset.act, buy = t.closest('.buy');
+    if (act === 'add' || act === 'inc' || act === 'dec') {
+      var key = t.dataset.key || (buy && buy.dataset.key), src = buy || $('.buy[data-key="' + key + '"]');
+      var name = src ? src.dataset.name : (cart[key] && cart[key].name), price = src ? +src.dataset.price : (cart[key] && cart[key].price);
+      if (!key || !name) return;
+      change(key, name, price, act === 'dec' ? -1 : 1);
+    } else if (act === 'open-cart') open();
+    else if (act === 'close-cart') close();
+    else if (act === 'next') { if (count()) { setView('form'); $('#v-form [name=name]').focus(); } }
+    else if (act === 'back') setView('list');
+  });
+
+  $('#v-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, err = $('#form-err'), btn = $('#btn-send');
+    var digits = f.phone.value.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 11) { 
+      err.textContent = 'Проверьте телефон: нужно 10–11 цифр.'; err.hidden = false; f.phone.focus(); return; 
+    }
+    
+    err.hidden = true; btn.disabled = true; btn.textContent = 'Отправляем…';
+    
+    var itemsArr = Object.keys(cart).map(function (k) { 
+      return { name: cart[k].name, qty: cart[k].qty, price: cart[k].price }; 
+    });
+
+    var body = {
+      type: 'order',
+      mode: f.mode.value, 
+      name: f.name.value, 
+      phone: f.phone.value, 
+      address: f.address.value, 
+      comment: f.comment.value,
+      items: itemsArr,
+      total: sum()
+    };
+    
+    fetch('/api/send', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify(body) 
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.ok) {
+          cart = {}; save(); 
+          window.location.href = '/thanks';
+        } else {
+          err.textContent = 'Не удалось отправить заказ. Позвоните: +7 (383) 225-11-25.'; 
+          err.hidden = false;
+          btn.disabled = false; btn.textContent = 'Отправить';
+        }
+      })
+      .catch(function () { 
+        err.textContent = 'Нет связи с сервером. Позвоните: +7 (383) 225-11-25.'; 
+        err.hidden = false;
+        btn.disabled = false; btn.textContent = 'Отправить';
+      });
+  });
+
+  load(); render();
+})();
+</script>

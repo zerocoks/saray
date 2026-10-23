@@ -1,0 +1,23 @@
+---
+// Одна позиция меню: название, описание и кнопки «в корзину» (по одной на каждый вариант: объём, вкус, размер).
+const { item } = Astro.props;
+const fmt = (n) => n.toLocaleString('ru-RU');
+const cartName = (v) => (v.label ? `${item.fullName} · ${v.label}` : item.fullName);
+---
+<li class={['item', item.variants.length > 1 && 'multi', item.photo && 'has-photo'].filter(Boolean).join(' ')} data-q={`${item.name} ${item.desc ?? ''}`.toLowerCase()}>
+  {item.photo && <img class="thumb" src={item.photo} alt={item.fullName} width="800" height="600" loading="lazy" decoding="async" />}
+  <div class="info">
+    <h3>{item.name}{item.isNew && <span class="tag">NEW</span>}{item.hit && <span class="tag">ХИТ</span>}</h3>
+    {item.meta && <p class="meta">{item.meta}</p>}
+    {item.desc && <p class="desc">{item.desc}</p>}
+    {item.note && <p class="note">{item.note}</p>}
+  </div>
+  <div class="side">
+    {item.variants.map((v) => (
+      <div class="buy" data-key={v.key} data-name={cartName(v)} data-price={v.price}>
+        <span class="vp">{v.label && <small>{v.label}</small>}<b>{fmt(v.price)} ₽</b></span>
+        <span class="ctl"><button type="button" class="add" data-act="add" aria-label={`Добавить в корзину: ${cartName(v)}`}>+</button></span>
+      </div>
+    ))}
+  </div>
+</li>

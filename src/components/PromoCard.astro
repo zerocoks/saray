@@ -1,0 +1,18 @@
+---
+// Карточка акции. until — дата окончания (ГГГГ-ММ-ДД) или null для бессрочной.
+const { promo, delay = 0 } = Astro.props;
+const until = promo.until
+  ? 'До ' + new Date(promo.until + 'T00:00:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(' г.', '')
+  : 'Действует постоянно';
+// заменить на реальное фото: поле "photo" у акции в src/data/promos.json, файл 800×600 WebP
+const photo = promo.photo ?? '/img/promo.webp';
+---
+<article class={`card promo-card reveal${promo.draft ? ' draft' : ''}`} style={`--d:${delay}ms`} data-until={promo.until ?? ''}>
+  <div class="media"><img src={photo} alt={promo.title} width="800" height="600" loading="lazy" decoding="async" /></div>
+  <div class="body">
+    {promo.draft && <span class="draft-flag">Черновик — виден только в разработке</span>}
+    <span class="badge">{until}</span>
+    <h3>{promo.title}</h3>
+    <p class="desc">{promo.text}</p>
+  </div>
+</article>

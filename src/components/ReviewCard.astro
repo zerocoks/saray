@@ -1,0 +1,9 @@
+---
+// Отзыв гостя. Только настоящие отзывы: примеры с "placeholder": true на боевом сайте не выводятся.
+const { review, delay = 0 } = Astro.props;
+---
+<article class={`card review reveal${review.placeholder ? ' draft' : ''}`} style={`--d:${delay}ms`}>
+  {review.placeholder && <span class="draft-flag">Пример — заменить на реальный отзыв</span>}
+  <blockquote>{review.text}</blockquote>
+  <footer><b>{review.name}</b><span>{review.date}</span></footer>
+</article>

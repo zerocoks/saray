@@ -1,0 +1,357 @@
+---
+import Base from '../layouts/Base.astro';
+
+const menu = [
+  {
+    id: "cold", title: "Холодные закуски", type: "kitchen",
+    items: [
+      { name: "Буженина домашняя", desc: "со сливочным хреном", price: 470 },
+      { name: "Ростбиф с рукколой", desc: "с имбирным соусом", price: 960, img: "/img/dishes/poastbeefsrukoloy.jpg" },
+      { name: "Строганина из телятины", price: 950, isNew: true },
+      { name: "Сёмга слабой соли", price: 1490 },
+      { name: "Сельдь пряного посола", desc: "с картофелем, маринованным луком", price: 495 },
+      { name: "Креветки северные", price: 790 },
+      { name: "Отварной телячий язык", desc: "со сливочным хреном и горчицей", price: 630 },
+      { name: "Рулетики из баклажанов", desc: "сыр Фета, грецкие орехи, чеснок", price: 495, img: "/img/dishes/ruletikibaklashan.jpg" },
+      { name: "Рулет куриный", desc: "с соусом сальса и зеленью", price: 310 },
+      { name: "Помидоры с сыром", desc: "чеснок и зелень", price: 395 },
+      { name: "Грузди слабой соли", desc: "со сметаной и луком", price: 480, img: "/img/dishes/domashniegruzdi.jpg" },
+      { name: "Грибы белые маринованные", desc: "с луком и маслом", price: 590 },
+      { name: "Печёные перчики рамиро", desc: "с зеленью и чесноком", price: 490, img: "/img/dishes/perchikiramiro.jpg" },
+      { name: "Тартар из телятины", desc: "с желтком и гренками", price: 890, img: "/img/dishes/tratarstelyatinoy.jpg" },
+      { name: "Карпаччо из мраморной телятины", desc: "с рукколой и пармезаном", price: 950, img: "/img/dishes/karpachostelyatiny.jpg" },
+    ]
+  },
+  {
+    id: "company", title: "Блюда на компанию", type: "kitchen",
+    items: [
+      { name: "Мясные деликатесы", desc: "ростбиф, рулет, буженина, язык", price: 1450, img: "/img/dishes/myasniedelicatesy.jpg" },
+      { name: "Рыбное плато", desc: "лосось, масляная рыба, муксун, угорь, сёмга", price: 2350 },
+      { name: "Овощное плато", desc: "томаты, огурцы, перец, редис, зелень", price: 480 },
+      { name: "Ассорти сыров", desc: "виноград, крекер, мёд, грецкий орех", price: 2250, img: "/img/dishes/assortisirov.jpg" },
+      { name: "Закуска под водку", desc: "грузди, белые грибы, сало, огурцы, капуста", price: 910, img: "/img/dishes/zakuskapodvodku.jpg" },
+    ]
+  },
+  {
+    id: "salads", title: "Салаты", type: "kitchen",
+    items: [
+      { name: "Греческий", price: 640 },
+      { name: "Грузинский", desc: "овощи, зелень, ореховая заправка", price: 415 },
+      { name: "Ачичук", desc: "помидоры, огурцы, красный лук, кинза, чили", price: 295 },
+      { name: "Хрустящие баклажаны", desc: "с томатами и творожным сыром", price: 590 },
+      { name: "Бахор", desc: "щавель, редис, огурец, лимонная заправка", price: 355 },
+      { name: "С печёной свёклой", desc: "творожный сыр, руккола, кедровые орешки", price: 585 },
+      { name: "Цезарь с куриным филе", price: 770 },
+      { name: "Цезарь с лососем гриль", price: 1350 },
+      { name: "Цезарь с креветками-гриль", price: 970 },
+      { name: "Цезарь с сёмгой", price: 1350 },
+      { name: "С морскими гадами", desc: "креветки, кальмары, мидии, ананас", price: 890 },
+      { name: "С сёмгой, авокадо и киноа", price: 990 },
+      { name: "С креветками гриль и ананасами", price: 795 },
+      { name: "Оливье с креветками", desc: "курица-гриль, телячий язык", price: 675 },
+      { name: "Острый с говядиной", desc: "болгарский перец, огурец, морковь", price: 540 },
+      { name: "С телячьим языком и рукколой", desc: "черри, кедровые орехи", price: 750 },
+      { name: "Лансай", desc: "рисовая лапша, огурцы, ростбиф", price: 445 },
+      { name: "С копчёным языком и яйцом пашот", price: 595 },
+      { name: "Печёный баклажан с ростбифом", price: 830 },
+      { name: "С говядиной по-тайски", price: 785 },
+      { name: "С говядиной", desc: "ростбиф, цукини, черри, горчичная заправка", price: 750 },
+      { name: "Тёплый с куриной печенью", price: 685 },
+    ]
+  },
+  {
+    id: "hot-apps", title: "Горячие закуски", type: "kitchen",
+    items: [
+      { name: "Камамбер", desc: "в хрустящей панировке с брусничным соусом", price: 495, isNew: true },
+      { name: "Хрустящие баклажаны с личи", price: 690 },
+      { name: "Хрустящие креветки в кляре", price: 595 },
+      { name: "Мидии с соусом дор-блю", price: 1395 },
+    ]
+  },
+  {
+    id: "beer", title: "К пиву", type: "kitchen",
+    items: [
+      { name: "Тарелка к пиву", desc: "сырные палочки, гренки, кальмары, наггетсы", price: 860 },
+      { name: "Сырные палочки", desc: "с соусом тар-тар", price: 530 },
+      { name: "Чесночные гренки", price: 230 },
+      { name: "Кольца кальмаров", price: 530 },
+      { name: "Луковые кольца", price: 380 },
+      { name: "Куриные наггетсы", price: 395 },
+      { name: "Крылышки в кляре", desc: "в соусе BBQ", price: 690 },
+      { name: "Мойва в хрустящей панировке", price: 375 },
+    ]
+  },
+  {
+    id: "soups", title: "Супы", type: "kitchen",
+    items: [
+      { name: "Том ям с креветками", price: 1150 },
+      { name: "Том ям с морепродуктами", price: 1130 },
+      { name: "Фо бо с телятиной", price: 890 },
+      { name: "Лагман из баранины", desc: "с домашней узбекской лапшой", price: 415 },
+      { name: "Чучвара", desc: "с узбекскими пельменями из ягнёнка", price: 470 },
+      { name: "Шурпа из баранины", desc: "с картофелем, морковью, томатами", price: 670 },
+      { name: "Балык шурпа", desc: "рыбный суп с сёмгой и судаком", price: 890 },
+      { name: "Товук шурпа", desc: "с цыплёнком и лапшой", price: 460 },
+      { name: "Солянка", desc: "мясная с копчёностями", price: 665 },
+      { name: "Сырный суп с курицей", desc: "со сливочным сыром и гренками", price: 680 },
+      { name: "Крем-суп из шампиньонов", price: 475 },
+      { name: "Борщ сибирский", desc: "с кручёным салом и сметаной", price: 675 },
+      { name: "Окрошка мясная", desc: "на квасе", price: 530 },
+    ]
+  },
+  {
+    id: "hot-meat", title: "Горячие блюда", type: "kitchen",
+    items: [
+      { name: "Запечённый лосось", desc: "с авокадо, терияки, сырным кремом", price: 1990 },
+      { name: "Щучьи котлеты", desc: "со сливочно-икорным соусом", price: 985 },
+      { name: "Мозговая кость", desc: "с хрустящей чиабатой", price: 985, isNew: true },
+      { name: "Бефстроганов", desc: "из телятины с картофельным пюре", price: 985, isNew: true },
+      { name: "Крабовые котлеты", desc: "с мясом тигровых креветок", price: 980 },
+      { name: "Жаркое по-русски", desc: "свинина, куриная печень, белые грибы", price: 985 },
+      { name: "Рёбра свиные", desc: "в имбирно-медовой глазури", price: 1830 },
+      { name: "Плов чайханский", desc: "с бараниной, морковью, чесноком", price: 650 },
+      { name: "Рулька свиная", desc: "с тушеной капустой и пюре", price: 990 },
+      { name: "Зарафшан с шампиньонами", desc: "говяжья вырезка с чили", price: 990 },
+      { name: "Потрошки жареные с луком", price: 690 },
+      { name: "Язык телячий тушёный", desc: "с грибами в сливочно-горчичном соусе", price: 990 },
+      { name: "Каурма лагман", desc: "жареный лагман", price: 750 },
+      { name: "Медальоны из цыплёнка", desc: "с овощами гриль и соусом дор-блю", price: 930 },
+      { name: "Токо", desc: "голубцы из баранины в виноградном листе", price: 990 },
+      { name: "Утиная ножка", desc: "на грече со сливочно-грибным соусом", price: 945 },
+      { name: "Телячьи щёчки", desc: "с картофельным пюре", price: 990 },
+      { name: "Томлёная голень ягнёнка", desc: "под сливочным соусом с белыми грибами", price: 990 },
+      { name: "Котлеты из курицы", desc: "на пюре со сливочно-грибным соусом", price: 685 },
+    ]
+  },
+  {
+    id: "grill", title: "Гриль и Стейки", type: "kitchen",
+    items: [
+      { name: "Стриплойн", desc: "с перечным соусом, medium", price: 2430 },
+      { name: "Рибай", desc: "с перечным соусом", price: 2990 },
+      { name: "Филе миньон", desc: "с перечным соусом", price: 1590 },
+      { name: "Медальоны из говядины", desc: "с перечным соусом", price: 1590 },
+      { name: "Стейк из свиной шеи", price: 750 },
+      { name: "Язык-гриль", desc: "с малосольными огурчиками", price: 995 },
+      { name: "Цезарь-шаурма с курицей", desc: "с беконом и соусом цезарь", price: 835 },
+      { name: "Шашлык из свинины", price: 695 },
+      { name: "Шашлык из курицы", price: 595 },
+      { name: "Шашлык из телятины", price: 1490 },
+      { name: "Шашлык из баранины", price: 995 },
+      { name: "Люля-кебаб из курицы", price: 475 },
+      { name: "Люля-кебаб из баранины", price: 710 },
+      { name: "Люля-кебаб из телятины", price: 755 },
+      { name: "Дорада на гриле", desc: "в пряном соусе", price: 1390 },
+      { name: "Шашлык из кальмаров", desc: "с овощами-гриль", price: 945 },
+      { name: "Стейк сёмги на гриле", desc: "со сливочно-икорным соусом", price: 2250 },
+      { name: "Шашлык из сёмги", price: 1990 },
+    ]
+  },
+  {
+    id: "burgers", title: "Бургеры", type: "kitchen",
+    items: [
+      { name: "BBQ", desc: "2 котлеты из мраморной говядины, чеддер, бекон", price: 990 },
+      { name: "Чеддер", desc: "большая котлета, лук фри, халапеньо", price: 950 },
+      { name: "Chicken Co-Co", desc: "куриная грудка темпура, сырный соус, терияки", price: 660 },
+    ]
+  },
+  {
+    id: "garnish", title: "Гарниры", type: "kitchen",
+    items: [
+      { name: "Драники картофельные", desc: "со сметаной", price: 330 },
+      { name: "Картофель с белыми грибами", price: 650 },
+      { name: "Картофельные дольки", desc: "с соусом тар-тар", price: 335 },
+      { name: "Шампиньоны гриль", price: 495 },
+      { name: "Овощи гриль", desc: "цукини, баклажаны, перец, кукуруза", price: 575 },
+      { name: "Картофельное пюре", price: 280 },
+      { name: "Картофель гриль", price: 210 },
+      { name: "Картофель фри", price: 315 },
+      { name: "Рис с овощами", price: 215 },
+    ]
+  },
+  {
+    id: "flour", title: "Мучное", type: "kitchen",
+    items: [
+      { name: "Манты с бараниной", price: 470 },
+      { name: "Манты с капустой", price: 220 },
+      { name: "Манты с тыквой", price: 210, isNew: true },
+      { name: "Пельмени сибирские", price: 460 },
+      { name: "Пельмени сибирские жареные", price: 570 },
+      { name: "Хинкали калакури", desc: "в сливочно-сырном соусе", price: 595 },
+      { name: "Хинкали с курицей", price: 395 },
+      { name: "Хинкали с телятиной", price: 750 },
+      { name: "Хинкали с телятиной жареные", price: 750 },
+    ]
+  },
+  {
+    id: "bakery", title: "Выпечка", type: "kitchen",
+    items: [
+      { name: "Хачапури по-мегрельски", price: 735 },
+      { name: "Хачапури по-аджарски", price: 755 },
+      { name: "Кубдари с бараниной", desc: "и свежими томатами", price: 830 },
+      { name: "Чебурек с бараниной", price: 430 },
+      { name: "Чебурек с телятиной", price: 450 },
+      { name: "Кутаб с зеленью и сыром", price: 330 },
+      { name: "Кутаб с тыквой", price: 295, isNew: true },
+      { name: "Кок самса с сулугуни", price: 335 },
+      { name: "Пирожки с луком и яйцом", price: 210, isNew: true },
+      { name: "Пирожки с капустой", price: 190, isNew: true },
+      { name: "Лепешка из тандыра", price: 60 },
+      { name: "Хлеб миланский", price: 50 },
+    ]
+  },
+  {
+    id: "desserts", title: "Десерты", type: "kitchen",
+    items: [
+      { name: "Маковый пирог", desc: "со сливочным кремом и мороженым", price: 340 },
+      { name: "Торт медовый", price: 340 },
+      { name: "Наполеон", price: 375 },
+      { name: "Три молока", desc: "бисквит с кремом и фисташкой", price: 330 },
+      { name: "Чизкейк", price: 390 },
+      { name: "Чизкейк сникерс", price: 390 },
+      { name: "Меренговый рулет", price: 430 },
+      { name: "Мороженое", desc: "1 шарик", price: 130 },
+    ]
+  },
+  {
+    id: "bar-drinks", title: "Напитки и Бар", type: "bar",
+    items: [
+      { name: "Лимонад Свежий цитрус", desc: "250мл", price: 250 },
+      { name: "Лимонад Щавелевый", desc: "250мл", price: 290 },
+      { name: "Лимонад Тархун", desc: "250мл", price: 290 },
+      { name: "Мохито", desc: "классика / клубника / маракуйя", price: 340 },
+      { name: "Голубые Гавайи", desc: "320мл", price: 320 },
+      { name: "Пина колада", desc: "330мл", price: 420 },
+      { name: "Морс Клюквенно-брусничный", desc: "250мл", price: 120 },
+      { name: "Сок свежевыжатый", desc: "апельсин, яблоко, морковь", price: 290 },
+      { name: "Кола / Тоник", desc: "250мл", price: 270 },
+      { name: "Эспрессо", desc: "25мл / 50мл", price: 160 },
+      { name: "Капучино", desc: "200мл / 330мл", price: 240 },
+      { name: "Латте", desc: "220мл / 350мл", price: 250 },
+      { name: "Американо", desc: "200мл", price: 200 },
+      { name: "Раф", desc: "330мл", price: 370 },
+      { name: "Флэт уайт", desc: "220мл", price: 280 },
+      { name: "Чай листовой", desc: "400мл", price: 250 },
+      { name: "Чай фирменный (Малина-имбирь и др.)", desc: "650мл", price: 490 },
+    ]
+  }
+];
+---
+<Base title="Меню — Сарай">
+  <div class="menu-head">
+    <div class="wrap">
+      <h1>Меню</h1>
+      <p>Выбирайте блюда и добавляйте в корзину — оформим доставку или самовывоз.</p>
+    </div>
+  </div>
+
+  <div class="menu-tools">
+    <div class="wrap tools-row">
+      <div class="segbtn" id="menu-filters">
+        <button type="button" aria-pressed="true" data-filter="all">Все</button>
+        <button type="button" aria-pressed="false" data-filter="kitchen">Кухня</button>
+        <button type="button" aria-pressed="false" data-filter="bar">Бар</button>
+      </div>
+      <div class="search">
+        <input type="search" id="menu-search" placeholder="Найти блюдо: плов, хачапури, лимонад..." aria-label="Поиск по меню">
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-nav">
+    <div class="wrap">
+      <div class="chips">
+        {menu.map(section => (
+          <a href={`#${section.id}`}>{section.title}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-part">
+    <div class="wrap">
+      <h2>Меню ресторана</h2>
+      <p class="sub">Цены указаны в рублях</p>
+
+      {menu.map(section => (
+        <section class="cat" id={section.id} data-type={section.type}>
+          <h2>{section.title}</h2>
+          <ul class="items">
+            {section.items.map((item, i) => (
+              <li class={`item ${item.img ? 'has-photo' : ''}`}>
+                {item.img && <img src={item.img} alt={item.name} class="thumb" loading="lazy" />}
+                <div class="info">
+                  <h3>{item.name} {item.isNew && <span class="tag">NEW</span>}</h3>
+                  {item.desc && <p class="desc">{item.desc}</p>}
+                </div>
+                <div class="side">
+                  <div class="buy" data-key={`${section.id}.${i}`} data-name={item.name} data-price={item.price}>
+                    <span class="vp"><b>{item.price} ₽</b></span>
+                    <span class="ctl">
+                      <button type="button" class="add" data-act="add" aria-label="Добавить в корзину: {item.name}">+</button>
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var filterBtns = document.querySelectorAll('#menu-filters button');
+      var searchInput = document.getElementById('menu-search');
+      var sections = document.querySelectorAll('section.cat');
+      var items = document.querySelectorAll('.item');
+      var menuNav = document.querySelector('.menu-nav'); 
+
+      filterBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          filterBtns.forEach(function(b) { b.setAttribute('aria-pressed', 'false'); });
+          btn.setAttribute('aria-pressed', 'true');
+          
+          var filter = btn.dataset.filter;
+          
+          sections.forEach(function(sec) {
+            if (filter === 'all' || sec.dataset.type === filter) {
+              sec.hidden = false;
+            } else {
+              sec.hidden = true;
+            }
+          });
+
+          if (filter === 'bar') {
+            menuNav.classList.add('is-hidden');
+          } else {
+            menuNav.classList.remove('is-hidden');
+          }
+        });
+      });
+
+      searchInput.addEventListener('input', function(e) {
+        var query = e.target.value.toLowerCase().trim();
+        
+        items.forEach(function(item) {
+          var title = item.querySelector('h3').textContent.toLowerCase();
+          if (title.includes(query)) {
+            item.hidden = false;
+          } else {
+            item.hidden = true;
+          }
+        });
+
+        sections.forEach(function(sec) {
+          if (sec.hidden && query === '') return;
+          var visibleItems = sec.querySelectorAll('.item:not([hidden])');
+          if (visibleItems.length === 0 && query !== '') {
+            sec.hidden = true;
+          } else {
+            sec.hidden = false;
+          }
+        });
+      });
+    })();
+  </script>
+</Base>
