@@ -66,7 +66,7 @@ const { title = "Сарай — ресторан в Новосибирске", d
         г. Новосибирск, ул. Дачная, 19, 1 этаж · 
         <a href="tel:+73832251125">+7 (383) 225-11-25</a> · 
         <a href="https://vk.com/barak_saray_ambar" target="_blank" rel="noopener">ВКонтакте</a> · 
-        <a href="https://instagram.com/saray_nsk" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.instagram.com/bar_saray/" target="_blank" rel="noopener">Instagram</a>
       </p>
       <p><a href="/privacy">Политика обработки персональных данных</a></p>
     </div>
@@ -119,18 +119,15 @@ const { title = "Сарай — ресторан в Новосибирске", d
       var heroImg = document.querySelector('.hero-img');
       var lastScroll = 0;
       var ticking = false;
-      var isDesktop = window.innerWidth > 900; // Проверка на десктоп
+      var isDesktop = window.innerWidth > 900;
 
       window.addEventListener('scroll', function () {
         if (!ticking) {
           window.requestAnimationFrame(function () {
             var currentScroll = window.scrollY;
 
-            if (currentScroll > 50) { 
-              header.classList.add('is-scrolled'); 
-            } else { 
-              header.classList.remove('is-scrolled'); 
-            }
+            if (currentScroll > 50) { header.classList.add('is-scrolled'); } 
+            else { header.classList.remove('is-scrolled'); }
 
             if (currentScroll > lastScroll && currentScroll > 200) { 
               header.classList.add('is-hidden'); 
@@ -140,7 +137,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
               document.body.classList.remove('header-hidden'); 
             }
 
-            // Параллакс только на десктопе (на телефонах отключен для скорости)
             if (isDesktop && heroImg && currentScroll < window.innerHeight) {
               heroImg.style.transform = 'translateY(' + (currentScroll * 0.4) + 'px) scale(1.05)';
             }
@@ -152,7 +148,6 @@ const { title = "Сарай — ресторан в Новосибирске", d
         }
       }, { passive: true });
 
-      // Магнитные кнопки (только если есть мышка)
       if (window.matchMedia('(hover: hover)').matches) {
         var magnets = document.querySelectorAll('.btn.fill, .nav-cta');
         magnets.forEach(function (btn) {
