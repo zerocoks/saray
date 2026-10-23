@@ -12,7 +12,10 @@
   --shadow:0 10px 30px rgba(0,0,0,.35);--shadow-hi:0 20px 46px rgba(0,0,0,.5);
   --sans:"Jost","Futura","Century Gothic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
-  --hh: 110px; /* Высота шапки на десктопе */
+  
+  /* Высота шапки на десктопе */
+  --hh: 110px; 
+  
   --gut:clamp(18px,4vw,32px);
   --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -61,22 +64,22 @@ header .wrap{display:flex;gap:10px 28px;align-items:center;justify-content:space
 .logo {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   text-decoration: none;
   outline: none !important;
 }
 .logo img {
-  height: 64px;
+  height: 80px;
   width: auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.15));
 }
 .logo span {
-  font: 400 2.2rem/1 var(--serif);
-  letter-spacing: -0.02em;
+  font: 400 2.8rem/1 var(--serif);
+  letter-spacing: 0.03em;
   color: #f5f2ed;
-  padding-top: 6px;
+  padding-top: 8px;
 }
 
 header nav{display:flex;gap:6px 28px;align-items:center;margin-left:auto}
@@ -236,6 +239,40 @@ section.cat:first-of-type{margin-top:24px}
 .step button{width:30px;height:30px;font-size:18px}
 
 /* ==========================================
+   МАГИЯ: СКРЫВАЕМ ПЛЮСИКИ ДО НАВЕДЕНИЯ
+   ========================================== */
+@media (hover: hover) {
+  /* Прячем кнопку "+" по умолчанию */
+  .item .buy .add,
+  .dish-card .buy .add {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  
+  /* Показываем при наведении на карточку/строку, либо при фокусе (для доступности) */
+  .item:hover .buy .add,
+  .dish-card:hover .buy .add,
+  .item:focus-within .buy .add,
+  .dish-card:focus-within .buy .add {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+}
+
+/* На мобильных устройствах (где нет мышки) кнопка всегда видима */
+@media (hover: none) {
+  .item .buy .add,
+  .dish-card .buy .add {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* ==========================================
    КОРЗИНА
    ========================================== */
 .cart-overlay{position:fixed;inset:0;background:rgba(10,9,8,.66);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:40}
@@ -298,14 +335,12 @@ section.cat:first-of-type{margin-top:24px}
    АДАПТИВНОСТЬ (МОБИЛЬНАЯ ВЕРСИЯ)
    ========================================== */
 @media (max-width:900px){
-  /* Уменьшаем высоту шапки на мобильных */
-  :root { --hh: 72px; }
+  :root { --hh: 76px; }
   
   .burger{display:block}
   header nav{position:absolute;top:100%;left:0;right:0;margin:0;display:none;flex-direction:column;align-items:stretch;gap:0;background:#141210;border-bottom:1px solid var(--line);padding:6px max(var(--gut),env(safe-area-inset-left)) 16px}
   header.open nav{display:flex}
   
-  /* Делаем ссылки в меню чуть компактнее */
   header nav a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
   header nav a.nav-cta{margin-top:10px;text-align:center;border-bottom:0;padding:.8em 1em}
   
@@ -315,10 +350,9 @@ section.cat:first-of-type{margin-top:24px}
 @media (max-width:640px){
   body{font-size:16px}
   
-  /* Уменьшаем логотип и текст на мобилках, чтобы не растягивать шапку */
-  .logo img { height: 40px; }
-  .logo span { font-size: 1.6rem; padding-top: 2px; }
-  .logo { gap: 10px; }
+  .logo img { height: 52px; }
+  .logo span { font-size: 2rem; padding-top: 4px; }
+  .logo { gap: 12px; }
   
   .hero{min-height:74svh;padding-top:90px}
   .cta .btn{flex:1 1 100%}

@@ -6,30 +6,30 @@ const menu = [
     id: "cold", title: "Холодные закуски", type: "kitchen",
     items: [
       { name: "Буженина домашняя", desc: "со сливочным хреном", price: 470 },
-      { name: "Ростбиф с рукколой", desc: "с имбирным соусом", price: 960, img: "/img/dishes/poastbeefsrukoloy.jpg" },
+      { name: "Ростбиф с рукколой", desc: "с имбирным соусом", price: 960 },
       { name: "Строганина из телятины", price: 950, isNew: true },
       { name: "Сёмга слабой соли", price: 1490 },
       { name: "Сельдь пряного посола", desc: "с картофелем, маринованным луком", price: 495 },
       { name: "Креветки северные", price: 790 },
       { name: "Отварной телячий язык", desc: "со сливочным хреном и горчицей", price: 630 },
-      { name: "Рулетики из баклажанов", desc: "сыр Фета, грецкие орехи, чеснок", price: 495, img: "/img/dishes/ruletikibaklashan.jpg" },
+      { name: "Рулетики из баклажанов", desc: "сыр Фета, грецкие орехи, чеснок", price: 495 },
       { name: "Рулет куриный", desc: "с соусом сальса и зеленью", price: 310 },
       { name: "Помидоры с сыром", desc: "чеснок и зелень", price: 395 },
-      { name: "Грузди слабой соли", desc: "со сметаной и луком", price: 480, img: "/img/dishes/domashniegruzdi.jpg" },
+      { name: "Грузди слабой соли", desc: "со сметаной и луком", price: 480 },
       { name: "Грибы белые маринованные", desc: "с луком и маслом", price: 590 },
-      { name: "Печёные перчики рамиро", desc: "с зеленью и чесноком", price: 490, img: "/img/dishes/perchikiramiro.jpg" },
-      { name: "Тартар из телятины", desc: "с желтком и гренками", price: 890, img: "/img/dishes/tratarstelyatinoy.jpg" },
-      { name: "Карпаччо из мраморной телятины", desc: "с рукколой и пармезаном", price: 950, img: "/img/dishes/karpachostelyatiny.jpg" },
+      { name: "Печёные перчики рамиро", desc: "с зеленью и чесноком", price: 490 },
+      { name: "Тартар из телятины", desc: "с желтком и гренками", price: 890 },
+      { name: "Карпаччо из мраморной телятины", desc: "с рукколой и пармезаном", price: 950 },
     ]
   },
   {
     id: "company", title: "Блюда на компанию", type: "kitchen",
     items: [
-      { name: "Мясные деликатесы", desc: "ростбиф, рулет, буженина, язык", price: 1450, img: "/img/dishes/myasniedelicatesy.jpg" },
+      { name: "Мясные деликатесы", desc: "ростбиф, рулет, буженина, язык", price: 1450 },
       { name: "Рыбное плато", desc: "лосось, масляная рыба, муксун, угорь, сёмга", price: 2350 },
       { name: "Овощное плато", desc: "томаты, огурцы, перец, редис, зелень", price: 480 },
-      { name: "Ассорти сыров", desc: "виноград, крекер, мёд, грецкий орех", price: 2250, img: "/img/dishes/assortisirov.jpg" },
-      { name: "Закуска под водку", desc: "грузди, белые грибы, сало, огурцы, капуста", price: 910, img: "/img/dishes/zakuskapodvodku.jpg" },
+      { name: "Ассорти сыров", desc: "виноград, крекер, мёд, грецкий орех", price: 2250 },
+      { name: "Закуска под водку", desc: "грузди, белые грибы, сало, огурцы, капуста", price: 910 },
     ]
   },
   {
@@ -277,8 +277,7 @@ const menu = [
           <h2>{section.title}</h2>
           <ul class="items">
             {section.items.map((item, i) => (
-              <li class={`item ${item.img ? 'has-photo' : ''}`}>
-                {item.img && <img src={item.img} alt={item.name} class="thumb" loading="lazy" />}
+              <li class="item">
                 <div class="info">
                   <h3>{item.name} {item.isNew && <span class="tag">NEW</span>}</h3>
                   {item.desc && <p class="desc">{item.desc}</p>}
