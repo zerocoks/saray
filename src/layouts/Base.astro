@@ -21,8 +21,24 @@ const { title = "Сарай — ресторан в Новосибирске", d
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Playfair+Display:wght@400&display=swap&subset=cyrillic" rel="stylesheet">
   <script>document.documentElement.classList.add('js')</script>
+  
+  <!-- Микроразметка с часами работы -->
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Restaurant","name":"Сарай","telephone":"+7 383 225-11-25","url":"https://saray.su","hasMenu":"https://saray.su/menu","address":{"@type":"PostalAddress","streetAddress":"ул. Дачная, 19","addressLocality":"Новосибирск","addressCountry":"RU"}}
+    {
+      "@context":"https://schema.org",
+      "@type":"Restaurant",
+      "name":"Сарай",
+      "telephone":"+7 383 225-11-25",
+      "url":"https://saray.su",
+      "hasMenu":"https://saray.su/menu",
+      "address":{
+        "@type":"PostalAddress",
+        "streetAddress":"ул. Дачная, 19",
+        "addressLocality":"Новосибирск",
+        "addressCountry":"RU"
+      },
+      "openingHours": "Mo-Su 12:00-00:00"
+    }
   </script>
 </head>
 <body>
@@ -63,8 +79,10 @@ const { title = "Сарай — ресторан в Новосибирске", d
   <footer>
     <div class="wrap">
       <p>
-        г. Новосибирск, ул. Дачная, 19, 1 этаж · 
-        <a href="tel:+73832251125">+7 (383) 225-11-25</a> · 
+        Ежедневно с 12:00 до 00:00 · г. Новосибирск, ул. Дачная, 19, 1 этаж · 
+        <a href="tel:+73832251125">+7 (383) 225-11-25</a>
+      </p>
+      <p>
         <a href="https://vk.com/barak_saray_ambar" target="_blank" rel="noopener">ВКонтакте</a> · 
         <a href="https://www.instagram.com/bar_saray/" target="_blank" rel="noopener">Instagram</a>
       </p>
