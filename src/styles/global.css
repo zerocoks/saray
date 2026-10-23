@@ -27,17 +27,15 @@ body{
   font:400 17px/1.65 var(--sans);
   color:var(--text);
   
-  /* ФОН: Градиентные свечения + Топографические линии (горы) */
   background-color: var(--bg);
   background-image: 
-    /* 1. Мягкие световые пятна */
     radial-gradient(ellipse at 50% -10%, rgba(196, 112, 62, 0.12) 0%, transparent 60%),
     radial-gradient(ellipse at 0% 50%, rgba(237, 230, 218, 0.02) 0%, transparent 50%),
     radial-gradient(ellipse at 100% 80%, rgba(196, 112, 62, 0.06) 0%, transparent 50%),
-    /* 2. Тонкий контурный рельеф (SVG паттерн) */
     url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-50,100 C50,100 50,20 100,20 C150,20 150,100 250,100' fill='none' stroke='rgba(237,230,218,0.025)' stroke-width='1'/%3E%3Cpath d='M-50,120 C50,120 50,40 100,40 C150,40 150,120 250,120' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3Cpath d='M-50,80 C50,80 50,0 100,0 C150,0 150,80 250,80' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3C/svg%3E");
   
-  background-attachment: fixed;
+  /* Убрали fixed, чтобы телефон не тормозил */
+  background-attachment: scroll;
   background-size: 100% 100%, 100% 100%, 100% 100%, 400px 400px;
   
   -webkit-font-smoothing:antialiased;
@@ -80,26 +78,9 @@ header.is-scrolled{background:rgba(20,18,16,.98);box-shadow:0 10px 30px rgba(0,0
 header .wrap{display:flex;gap:10px 28px;align-items:center;justify-content:space-between;min-height:var(--hh)}
 
 /* ---------- ЛОГОТИП + ТЕКСТ ---------- */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  text-decoration: none;
-  outline: none !important;
-}
-.logo img {
-  height: 80px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.15));
-}
-.logo span {
-  font: 400 2.8rem/1 var(--serif);
-  letter-spacing: 0.03em;
-  color: #f5f2ed;
-  padding-top: 8px;
-}
+.logo{display:flex;align-items:center;gap:20px;text-decoration:none;outline:none!important}
+.logo img{height:80px;width:auto;display:block;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,255,255,0.15))}
+.logo span{font:400 2.8rem/1 var(--serif);letter-spacing:0.03em;color:#f5f2ed;padding-top:8px}
 
 header nav{display:flex;gap:6px 28px;align-items:center;margin-left:auto}
 header nav a{font:400 .98rem/1 var(--sans);color:var(--muted);text-decoration:none;padding:8px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
@@ -119,11 +100,7 @@ header.open .burger span::after{top:0;transform:rotate(-45deg)}
 
 /* ---------- Секции главной ---------- */
 .section{padding:clamp(64px,9vw,112px) 0}
-.section.alt{
-  background: linear-gradient(180deg, rgba(29, 26, 23, 0.6) 0%, rgba(20, 18, 16, 0.8) 100%);
-  border-top: 1px solid rgba(237, 230, 218, 0.05);
-  border-bottom: 1px solid rgba(237, 230, 218, 0.05);
-}
+.section.alt{background:linear-gradient(180deg,rgba(29,26,23,0.6) 0%,rgba(20,18,16,0.8) 100%);border-top:1px solid rgba(237,230,218,0.05);border-bottom:1px solid rgba(237,230,218,0.05)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
 .section-head h2{margin:0}
 .section-head .btn.ghost{padding-inline:0}
@@ -358,15 +335,28 @@ section.cat:first-of-type{margin-top:24px}
 .rw-widget { max-width: 100%; margin: 0 auto; }
 
 /* ==========================================
-   АДАПТИВНОСТЬ
+   АДАПТИВНОСТЬ (МОБИЛЬНАЯ ОПТИМИЗАЦИЯ)
    ========================================== */
 @media (max-width:900px){
   :root { --hh: 76px; }
+  
+  /* ОТКЛЮЧАЕМ РАЗМЫТИЕ ШАПКИ НА ТЕЛЕФОНАХ (убирает лаги) */
+  header { 
+    -webkit-backdrop-filter: none; 
+    backdrop-filter: none; 
+    background: rgba(20, 18, 16, 0.98); 
+  }
+
   .burger{display:block}
   header nav{position:absolute;top:100%;left:0;right:0;margin:0;display:none;flex-direction:column;align-items:stretch;gap:0;background:#141210;border-bottom:1px solid var(--line);padding:6px max(var(--gut),env(safe-area-inset-left)) 16px}
   header.open nav{display:flex}
   header nav a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
   header nav a.nav-cta{margin-top:10px;text-align:center;border-bottom:0;padding:.8em 1em}
+  
+  /* Убираем тяжелые эффекты с картинок */
+  .hero-img { transform: none !important; }
+  .js .reveal .media, .js .reveal .gallery figure { clip-path: none; transition: none; }
+  
   .atmo{grid-template-columns:1fr}
 }
 @media (max-width:640px){
