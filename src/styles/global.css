@@ -17,7 +17,7 @@
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 
-/* ---------- База с топографическим рельефом ---------- */
+/* ---------- База ---------- */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hh) + 90px);-webkit-text-size-adjust:100%}
@@ -34,7 +34,6 @@ body{
     radial-gradient(ellipse at 100% 80%, rgba(196, 112, 62, 0.06) 0%, transparent 50%),
     url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-50,100 C50,100 50,20 100,20 C150,20 150,100 250,100' fill='none' stroke='rgba(237,230,218,0.025)' stroke-width='1'/%3E%3Cpath d='M-50,120 C50,120 50,40 100,40 C150,40 150,120 250,120' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3Cpath d='M-50,80 C50,80 50,0 100,0 C150,0 150,80 250,80' fill='none' stroke='rgba(237,230,218,0.015)' stroke-width='1'/%3E%3C/svg%3E");
   
-  /* Убрали fixed, чтобы телефон не тормозил */
   background-attachment: scroll;
   background-size: 100% 100%, 100% 100%, 100% 100%, 400px 400px;
   
@@ -340,12 +339,13 @@ section.cat:first-of-type{margin-top:24px}
 @media (max-width:900px){
   :root { --hh: 76px; }
   
-  /* ОТКЛЮЧАЕМ РАЗМЫТИЕ ШАПКИ НА ТЕЛЕФОНАХ (убирает лаги) */
+  /* ИСПРАВЛЕНО: ГЛУХОЙ ФОН ДЛЯ ШАПКИ НА МОБИЛКАХ */
   header { 
     -webkit-backdrop-filter: none; 
     backdrop-filter: none; 
-    background: rgba(20, 18, 16, 0.98); 
+    background: #141210; /* Сделали полностью непрозрачным */
   }
+  header.is-scrolled { background: #141210; }
 
   .burger{display:block}
   header nav{position:absolute;top:100%;left:0;right:0;margin:0;display:none;flex-direction:column;align-items:stretch;gap:0;background:#141210;border-bottom:1px solid var(--line);padding:6px max(var(--gut),env(safe-area-inset-left)) 16px}
@@ -353,7 +353,6 @@ section.cat:first-of-type{margin-top:24px}
   header nav a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
   header nav a.nav-cta{margin-top:10px;text-align:center;border-bottom:0;padding:.8em 1em}
   
-  /* Убираем тяжелые эффекты с картинок */
   .hero-img { transform: none !important; }
   .js .reveal .media, .js .reveal .gallery figure { clip-path: none; transition: none; }
   
