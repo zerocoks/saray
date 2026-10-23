@@ -26,7 +26,6 @@ import BookingForm from '../components/BookingForm.astro';
         <a class="btn ghost" href="/menu">Смотреть всё меню →</a>
       </div>
       
-      <!-- КАРТОЧКИ С ТВОИМИ ФОТО -->
       <div class="cards">
         <article class="card dish-card reveal" style="--d:0ms">
           <div class="media"><img src="/img/dishes/myasniedelicatesy.jpg" alt="Мясные деликатесы" width="800" height="600" loading="lazy"></div>
@@ -177,11 +176,9 @@ import BookingForm from '../components/BookingForm.astro';
     </div>
   </section>
 
-  <!-- БЛОК КОНТАКТОВ (Контакты + Форма + Карта) -->
   <section class="section alt" id="kontakty" aria-labelledby="kontakty-title">
     <div class="wrap cols">
       
-      <!-- 1. КОНТАКТЫ -->
       <div class="contacts reveal">
         <p class="eyebrow">Контакты</p>
         <h2 id="kontakty-title">Как нас найти</h2>
@@ -189,21 +186,25 @@ import BookingForm from '../components/BookingForm.astro';
           <div>
             <dt>Адрес</dt>
             <dd>
-              <!-- Кликабельный адрес -->
               <a href="https://2gis.ru/novosibirsk/search/Сарай%20Дачная%2019" target="_blank" rel="noopener" style="text-decoration: none; border-bottom: 1px dashed var(--copper-hi);">
                 Новосибирск, ул. Дачная, 19, 1 этаж
               </a>
             </dd>
           </div>
           <div><dt>Телефон</dt><dd><a href="tel:+73832251125">+7 (383) 225-11-25</a></dd></div>
-          <div><dt>Соцсети</dt><dd><a href="https://vk.com/barak_saray_ambar">ВКонтакте</a></dd></div>
+          <div>
+            <dt>Соцсети</dt>
+            <dd>
+              <a href="https://vk.com/barak_saray_ambar" target="_blank" rel="noopener">ВКонтакте</a> · 
+              <a href="https://instagram.com/saray_nsk" target="_blank" rel="noopener">Instagram</a>
+            </dd>
+          </div>
         </dl>
         <div class="cta">
           <a class="btn fill" href="tel:+73832251125">Позвонить</a>
         </div>
       </div>
       
-      <!-- 2. ФОРМА ОБРАТНОЙ СВЯЗИ -->
       <div class="reveal" style="--d:100ms; background: var(--surface); padding: clamp(24px, 4vw, 32px); border-radius: var(--radius); border: 1px solid var(--line);">
         <h3 style="margin-bottom: 1.5em;">Остались вопросы?</h3>
         <form id="feedback-form" style="max-width: none;">
@@ -218,7 +219,6 @@ import BookingForm from '../components/BookingForm.astro';
         </form>
       </div>
 
-      <!-- 3. КАРТА (Ведет на 2ГИС) -->
       <a class="map photo reveal" style="--d:200ms; z-index: 1;" href="https://2gis.ru/novosibirsk/search/Сарай%20Дачная%2019" target="_blank" rel="noopener" aria-label="Открыть ресторан на 2ГИС">
         <img src="/img/facade.webp" alt="" width="900" height="600" loading="lazy">
         <strong>Мы на 2ГИС</strong>
